@@ -8,13 +8,12 @@ class ProductManager {
 
     constructor() {
         this.products = [];
-        this.path = path.resolve(__dirname, '\products.json' ) ;
+        this.path = '\products.json' ;
     }
 
     getProducts() {
-        console.log('Impriendo productos de la lista');
         let result = JSON.parse(fs.readFileSync(this.path, 'utf-8'));
-        console.log(result);
+        return result;
     }
 
     getProductsById(id) {
@@ -22,7 +21,6 @@ class ProductManager {
         let result = JSON.parse(fs.readFileSync(this.path, 'utf-8'));
         let product = result.find(e => e.id == id);
         return product;
-        (result.find(e => e.id == id)) ? console.log('-------- Producto Encontrado --------', '\n', result[id]) : console.log('-- Not Found --');
     }
 
     async removeAll() {
@@ -102,14 +100,5 @@ class ProductManager {
     }
 }
 
-let gestor = new ProductManager();
-gestor.addProduct('fernet', 'aperitivo', 3500, 'fernet.com', 24, 100);
-gestor.addProduct('heineken', 'cerveza', 1500, 'heineken.com', 21, 50);
-gestor.addProduct('budweiser', 'cerveza', 2500, 'budweiser.com', 18, 150);
-gestor.addProduct('abc', 'cerveza', 4500, 'abc.com', 14, 350);
-//gestor.updateProduct(3, 'price', 2000);
-//gestor.getProducts();
-//gestor.getProductsById(1);
-//gestor.getProductsById(6);
-//gestor.removeById(2);
-//gestor.removeAll();
+
+module.exports = ProductManager;

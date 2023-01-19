@@ -1,30 +1,27 @@
-const { log } = require('console');
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const { dirname } = require('path');
 const app = express();
 app.use(express.urlencoded({extended:true}));
+const ProductManager =require('./products')
+const aux = new ProductManager();
 
 app.get('/', (req,res) =>{  
     res.send('Here I am')
 })
 
-app.get('/products/:pId', async (req,res) =>{
+app.get('/products/:pId', (req,res) =>{
     let pId = req.params.pId;
     try{        
-        let result = JSON.parse(await fs.promises.readFile(path.resolve(__dirname, '\products.json') , 'utf-8'))
-        let product = result.find(e => e.id == pId);
-        (!product) ? res.send('Product Not Found') : res.send(product); 
+        let result = aux.getProductsById(pId);
+        (!result) ? res.send('Product Not Found') : res.send(result);
     }catch{
         console.log('File Not Found');
     }
 })
 
-app.get('/products', async (req,res) =>{
+app.get('/products', (req,res) =>{
     let {limit} = req.query;
     try{
-        let result = JSON.parse(await fs.promises.readFile(path.resolve(__dirname, '\products.json') , 'utf-8'))
+        let result = aux.getProducts();
         if (!limit){
             res.send(result);
         }else{
