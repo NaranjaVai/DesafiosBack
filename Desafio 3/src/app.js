@@ -1,36 +1,17 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-const ProductManager =require('./products')
-const aux = new ProductManager();
 
-app.get('/', (req,res) =>{  
-    res.send('Here I am')
-})
+const cartRouter = require('./routes/cart')
+const productRouter = require('./routes/products')
 
-app.get('/products/:pId', (req,res) =>{
-    let pId = req.params.pId;
-    try{        
-        let result = aux.getProductsById(pId);
-        (!result) ? res.send('Product Not Found') : res.send(result);
-    }catch{
-        console.log('File Not Found');
-    }
-})
+app.use('/api/products', productRouter);
+app.use('/api/carts', cartRouter);
 
-app.get('/products', (req,res) =>{
-    let {limit} = req.query;
-    try{
-        let result = aux.getProducts();
-        if (!limit){
-            res.send(result);
-        }else{
-            let newArr = result.splice(0,limit);
-            res.send(newArr);
-        }
-    }catch{
-        console.log('File Not Found');
-    }
+app.get('/', (req,res) =>{
+    res.send('Home')
 })
 
 const server = app.listen(8080, () => { console.log('Server listening on 8080');})
+server.on("error", e => console.log(e))
