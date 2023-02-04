@@ -14,33 +14,33 @@ class CartManager {
 
     async getCart() {
         try {
-            let result = await JSON.parse(fs.promises.readFile(this.path, 'utf-8'));
+            let result =  JSON.parse( await fs.promises.readFile(this.path, 'utf-8'));
             return result;
         } catch (error) {
-            return { error: error };
+            return { error: error.message };
         }
     }
 
     async getProductsListById(id) {
+        let result = await this.getCart();
         try {
-            let result = await this.getCart();
             let productList = result.find(e => e.id == id);
             return productList;
         } catch (error) {
-            return { error: error }
+            return { error: error.message }
         }
     }
 
     async createCart() {
+        let aux = await this.getCart();
         try {
-            let aux = await this.getCart();
             aux.push({
                 id: await this.autoId(),
                 products: []
             })
             await fs.promises.writeFile(this.path, JSON.stringify(aux));
         } catch (e) {
-            return { error: e }
+            return { error: e.message }
         }
     }
 
@@ -50,8 +50,8 @@ class CartManager {
             product: product.id,
             quantity: quantity
         }
+        let result = await this.getCart();
         try {
-            let result = await this.getCart();
             let aux = result.find(e => e.id == id);
             if (aux[id].products.product == product.id) {
                 aux[id].products.quantity += 1
@@ -63,7 +63,7 @@ class CartManager {
                 await fs.promises.writeFile(this.path, JSON.stringify(result));
             }
         } catch (e) {
-            return { error: e }
+            return { error: e.message }
         }
     }
 

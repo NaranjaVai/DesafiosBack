@@ -14,7 +14,7 @@ class ProductManager {
     }
 
     async getProducts() {
-        let result = await JSON.parse(fs.promises.readFile(this.path, 'utf-8'));
+        let result = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'));
         return result;
     }
 
@@ -27,8 +27,8 @@ class ProductManager {
     async addProduct(product) {
         try {
             if (product.title && product.description && product.code && product.price && product.status && product.stock && product.category ) {
-                this.products = await this.getProducts();
-                    this.products.push({
+                let auxProducts = await this.getProducts();
+                auxProducts.push({
                         id: await this.autoId(),
                         title: product.title,
                         description: product.description,
@@ -39,10 +39,10 @@ class ProductManager {
                         status: true,
                         category: product.category
                     })
-                await fs.promises.writeFile(this.path, JSON.stringify(this.products));
-            }else { return 'No estan todos los campos ingresados' }
+               return await fs.promises.writeFile(this.path, JSON.stringify(auxProducts));
+            }else { return 'Error' }
         } catch(e) {
-            return {error: e}
+            return {error: e.message}
         }
     }
 
@@ -54,7 +54,7 @@ class ProductManager {
                 result.splice(aux,1, product)
                 await fs.promises.writeFile(this.path, JSON.stringify(result));
         } catch {
-            return 'Producto no puede ser Borrado';
+            return 'Error';
         }
     }
     
@@ -66,7 +66,7 @@ class ProductManager {
             resultParse.splice(id, 1);
             await fs.promises.writeFile(this.path, JSON.stringify(resultParse));
         } else {
-            return 'Producto inexistente';
+            return 'Error';
         }
     }
     
@@ -77,3 +77,17 @@ class ProductManager {
 
 
 module.exports = ProductManager;
+
+
+
+
+
+/* 
+{"title": "aa",
+"description": "sda",
+"price": "100",
+"thumbnail": "aa.com",
+"code": "75",
+"stock": "100",
+"category": "beers"
+} */
