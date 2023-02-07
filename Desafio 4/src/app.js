@@ -34,11 +34,8 @@ io.on('connection', socket => {
 module.exports = {
     PORT,
     httpServer,
-     showProducts: async () =>{
-       return await aux.getProducts();
-    },
     productAdd: async (p) => {
-       return await aux.addProduct(p)
+        await aux.addProduct(p)
     },
     productDelete: async (pID) =>{
        return await aux.removeById(pID);

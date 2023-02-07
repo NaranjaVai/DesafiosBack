@@ -1,21 +1,21 @@
 const {Router} = require('express');
-const { showProducts,productAdd, productDelete } = require('../app.js');
 const realTimeRouter = Router();
 
 realTimeRouter.get('/', (req,res) =>{
-    res.render(`Productos en este momento ${showProducts()}`)
+    res.render('realTimeProducts', {title:'Productos en tiempo real'})
 })
 
 realTimeRouter.post('/', async (req,res) => {
     let aux = req.body;
-    productAdd(aux);
+    console.log(aux)
+    require('../app').productAdd(aux);
     res.end();
 })
 
-realTimeRouter.delete('/:pid', async (req,res) =>{
+/* realTimeRouter.delete('/:pid', async (req,res) =>{
     let aux = req.params.pid
-    productDelete(aux);
+    require('../app').productDelete(aux);
     res.end();
 })
-
+ */
 module.exports = realTimeRouter

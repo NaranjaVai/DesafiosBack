@@ -26,38 +26,20 @@ class ProductManager {
 
     async addProduct(product) {
         try {
-            if (product.title && product.description && product.code && product.price && product.status && product.stock && product.category ) {
+            if (product.title && product.description && product.price) {
                 let auxProducts = await this.getProducts();
                 auxProducts.push({
                         id: await this.autoId(),
                         title: product.title,
                         description: product.description,
                         price: product.price,
-                        thumbnail: product.thumbnail,
-                        code: product.code,
-                        stock: product.stock,
-                        status: true,
-                        category: product.category
                     })
                return await fs.promises.writeFile(this.path, JSON.stringify(auxProducts));
             }else { return 'Error' }
         } catch(e) {
             return {error: e.message}
         }
-    }
-
-    async updateProduct(id, product) {
-        try{
-
-            let result = await this.getProducts();
-            let aux = result.findIndex(e => e.id == id);
-                result.splice(aux,1, product)
-                await fs.promises.writeFile(this.path, JSON.stringify(result));
-        } catch {
-            return 'Error';
-        }
-    }
-    
+    }   
     async removeById(id) {
         let result = await this.getProducts();
         let resultParse = JSON.parse(result);
@@ -70,24 +52,6 @@ class ProductManager {
         }
     }
     
-        async removeAll() {
-            return await fs.promises.writeFile(this.path, '[]');
-        }
 }
 
-
 module.exports = ProductManager;
-
-
-
-
-
-/* 
-{"title": "aa",
-"description": "sda",
-"price": "100",
-"thumbnail": "aa.com",
-"code": "75",
-"stock": "100",
-"category": "beers"
-} */
