@@ -12,7 +12,7 @@ productRouter.get('/', async (req,res) =>{
 productRouter.get('/:pId', async (req,res) =>{
     let pId = req.params.pId;
     let result = await aux.getProductsById(pId);        
-        (result) ? res.render({product: product, title : title}) : res.status(400).render({status:'Not Found', error: 'Invalid ID'});
+        (result) ? res.render({product: result}) : res.status(400).render({status:'Not Found', error: 'Invalid ID'});
 })  
 
 module.exports = productRouter;
