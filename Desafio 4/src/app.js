@@ -13,9 +13,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/api/product', productRouter);
 app.use('/api/realtimeproducts', realTimeP);
-const PORT = 8080;
 let products = [];
 const aux = new ProductManager();
+const PORT = 8080;
 
 (async () => products = await aux.getProducts())();
 
