@@ -17,7 +17,7 @@ const PORT = 8080;
 let products = [];
 const aux = new ProductManager();
 
-(() => products = aux.getProducts())();
+(async () => products = await aux.getProducts())();
 
 app.get('/', (req,res) =>{
     res.render('home', {products})
@@ -25,7 +25,7 @@ app.get('/', (req,res) =>{
 
 const httpServer = app.listen(PORT, () => console.log('Server runing on PORT 8080'));
 httpServer.on('error', error => console.log(error))
-const io = Server(httpServer)
+const io =new Server(httpServer)
 io.on('connection', socket => {
     console.log('Nuevo Usuario')
     socket.emit('Productos', products);
@@ -34,6 +34,9 @@ io.on('connection', socket => {
 module.exports = {
     PORT,
     httpServer,
+    showProducts : async() =>{
+        await aux.getProducts()
+    },
     productAdd : async (p) => {
         await aux.addProduct(p)
     },
