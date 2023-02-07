@@ -1,9 +1,10 @@
 const {Router} = require('express');
-const { showProducts,productAdd, productDelete} = require('../app');
+const {showProducts,productAdd, productDelete } = require('../app.js');
 const realTimeRouter = Router();
 
 realTimeRouter.get('/', (req,res) =>{
-    res.render('Productos en este momento', showProducts())
+    console.log(`${showProducts()}`);
+    res.render('realTimeProducts', showProducts())
 })
 
 realTimeRouter.post('/', async (req,res) => {

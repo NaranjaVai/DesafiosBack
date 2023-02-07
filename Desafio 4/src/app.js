@@ -34,13 +34,14 @@ io.on('connection', socket => {
 module.exports = {
     PORT,
     httpServer,
-    showProducts : async() =>{
-        await aux.getProducts()
+     showProducts: async () =>{
+       return await aux.getProducts();
     },
-    productAdd : async (p) => {
-        await aux.addProduct(p)
+    productAdd: async (p) => {
+       return await aux.addProduct(p)
     },
-    productDelete : async (pID) =>{
-        await aux.removeById(pID);
-    }  
+    productDelete: async (pID) =>{
+       return await aux.removeById(pID);
+    }  //problemas de dependencia circular (cant solve)}
+     
 }
