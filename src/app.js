@@ -23,7 +23,7 @@ app.get("/", (req, res) =>{
 const server = app.listen(PORT , ()=>{
     console.log(`Server running on port: ${server.address().port}`)
 }); 
-server.on('error', error => console.log(error));
+server.on('error', error => console.log(error)); 
 
 
   
