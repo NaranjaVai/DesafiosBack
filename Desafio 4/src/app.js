@@ -10,7 +10,7 @@ app.set('view engine', 'handlebars')
 app.set('views', './src/views');
 app.use(express.static('public'))
 app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true})) 
 app.use('/api/product', productRouter);
 app.use('/api/realtimeproducts', realTimeP);
 let products = [];
