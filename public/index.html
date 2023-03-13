@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+</head>
+<body>
+    <label for="nameClient">Nombre: </label>
+    <input type="text" name="nameClient" id="nameClient">
+
+    <label for="emailClient">Email: </label>
+    <input type="email" name="emailClient" id="emailClient">
+
+    <button type="button" id="gCookie"> Obtener</button>
+    <button type="button" id="cCookie"> Crear</button>
+
+<script>
+function getCookie(){
+    fetch('/getCookies')
+    .then(res => res.text())
+    .catch(err => console.error(err))
+}
+
+function createCookie(){
+    const userMail = document.getElementById('emailClient');
+    fetch('/setCookie',{
+        method: 'POST',
+        headers:{'Content-Type': 'aplication/json'},
+        body: JSON.stringify({userMail: userMail })
+    })
+    .then(res => res.text())
+    .catch(err => console.error(err));
+}
+
+document.getElementById('gCookie').addEventListener('click', getCookie);
+document.getElementById('cCookie').addEventListener('click', createCookie);
+</script>
+
+
+    
+</body>
+</html>
+
+
